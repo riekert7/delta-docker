@@ -1,0 +1,17 @@
+services:
+  waha:
+    image: devlikeapro/waha
+    container_name: waha
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./waha_sessions:/app/.waha
+    networks:
+      - cf-tunnel
+
+networks:
+  cf-tunnel:
+    external: true

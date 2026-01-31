@@ -1,0 +1,8 @@
+.vscode
+.env
+
+# n8n - runtime data, database, credentials, logs
+n8n/data/
+
+# WAHA - WhatsApp session data
+waha/waha_sessions/

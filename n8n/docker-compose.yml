@@ -1,0 +1,18 @@
+services:
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    # Optional: expose locally for your own browser/testing
+    ports:
+      - "5678:5678"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/home/node/.n8n
+    networks:
+      - cf-tunnel
+
+networks:
+  cf-tunnel:
+    external: true
