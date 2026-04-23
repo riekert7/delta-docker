@@ -6,21 +6,27 @@ Self-hosted service stack using Docker Compose, routed through a Cloudflare tunn
 
 | Service | Image | Purpose |
 |---------|-------|---------|
-| **Cloudflared** |  | Cloudflare tunnel — exposes services publicly without opening firewall ports |
-| **n8n** |  | Workflow automation, accessible on port 5678 locally |
-| **WAHA** |  | WhatsApp HTTP API — scan once, send/receive messages via REST on port 3000 |
+| **Cloudflared** | `cloudflare/cloudflared` | Cloudflare tunnel — exposes services publicly without opening firewall ports |
+| **n8n** | `n8nio/n8n` | Workflow automation, accessible on port 5678 locally |
+| **WAHA** | `devlikeapro/waha` | WhatsApp HTTP API — scan once, send/receive messages via REST on port 3000 |
 
 ## Architecture
 
-All services share a Docker network named . Cloudflared routes external HTTPS traffic into that network, so n8n and WAHA are reachable from the internet without exposing any host ports.
+All services share a Docker network named `cf-tunnel`. Cloudflared routes external HTTPS traffic into that network, so n8n and WAHA are reachable from the internet without exposing any host ports.
 
-
+```
+Internet → Cloudflare Edge → cloudflared container → cf-tunnel network → n8n / WAHA
+```
 
 ## Setup
 
-Each service lives in its own folder with a  and a  file (not committed). Start Cloudflared first — it creates the shared network.
+Each service lives in its own folder with a `docker-compose.yml` and a `.env` file (not committed). Start Cloudflared first — it creates the shared network.
 
-
+```bash
+cd cloudflared && docker compose up -d
+cd ../n8n      && docker compose up -d
+cd ../waha     && docker compose up -d
+```
 
 ## Related
 
